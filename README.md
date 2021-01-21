@@ -1,1 +1,1 @@
-# dsc180b-compressed
+# DSC180B-Capstone-Project
