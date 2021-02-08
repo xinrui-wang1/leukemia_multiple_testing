@@ -22,7 +22,7 @@ test_stats <- function(data) {
   return(test_list)
 }
 
-transform_data <- function(data, train) { #takes train/test list as the input, if train == false then use test
+transform_data <- function(data, train) { #takes data as input, outputs the z-scores
   if (train == TRUE) {
     stats = train_stats(data)
   }
@@ -36,20 +36,27 @@ transform_data <- function(data, train) { #takes train/test list as the input, i
   return(z.scores)
 }
 
-qq_plot <- function(data, outdir, transformed = FALSE) {
+qq_plot <- function(data, outdir, train, transformed = FALSE) {
   #create qq plots, if transformed = TRUE then create plot for z scores
   if (transformed == TRUE) {
     jpeg(paste(outdir,'qq_plot_transformed.jpg',sep='/'))
-    x = train_stats(data)
-    new.X = transform_train(x)
-    qqnorm(new.X, main=' QQ plot for transformed z scores')
+    z.scores = transform_data(data, train)
+    qqnorm(z.scores, main=' QQ plot for transformed z scores')
     abline(0,1,lwd=2,col='red')
   }
   else {
-    jpeg(paste(outdir, 'qq_plot_train', sep='/'))
-    x = train_stats(data)
-    qqnorm(x, main= ' QQ plot for t statistics')
-    abline(0,1,lwd=2,col='red')
+    if (train==TRUE) {
+      jpeg(paste(outdir, 'qq_plot_train', sep='/'))
+      x = train_stats(data)$t.stat
+      qqnorm(x, main= ' QQ plot for t statistics')
+      abline(0,1,lwd=2,col='red')
+    }
+    else {
+      jpeg(paste(outdir, 'qq_plot_test', sep='/'))
+      x = test_stats(data)$t.stat
+      qqnorm(x, main= ' QQ plot for t statistics')
+      abline(0,1,lwd=2,col='red')
+    }
   }
   
   dev.off()
@@ -95,5 +102,5 @@ generate_plots_golub <- function(data, outdir, train) {
   hist_tstat(data, outdir,train)
   hist_p(data, outdir, train)
   qq_plot(data, outdir, train)
-  qq_plot(data, outdir, transformed=TRUE)
+  qq_plot(data, outdir, train, transformed=TRUE)
 }
