@@ -1,6 +1,6 @@
 # DSC180B-Capstone-Project
-- data download: in the command line enter Rscript run-data.R data
-- analysis: in the command line enter Rscript run-data.R analysis
+- data download: in the command line enter 'Rscript run-data.R data'
+- analysis: in the command line enter 'Rscript run-data.R analysis'
   - the resulting graphs will be in the data/out folder 
 
 - data: contains the raw and cleaned versions of the datasets we're working with. Also will hold the graphs from analysis
