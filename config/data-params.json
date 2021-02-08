@@ -3,4 +3,7 @@
   "train":"golub2",
   "datadir1":"data/cleaned/golub1",
   "datadir2":"data/cleaned/golub2"
+  "raw1":"data/raw/data_set_ALL_AML_independent.csv"
+  "raw2":"data/raw/data_set_ALL_AML_train.csv"
+  "raw_actual":"data/raw/actual.csv"
 }
