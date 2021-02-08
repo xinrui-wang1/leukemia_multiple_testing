@@ -1,7 +1,7 @@
 library("rjson")
 
 source("src/data/etl.R")
-source("src/analysis/GolubAnalysis.R")
+source("src/analysis/golubAnalysis.R")
 
 main <- function(target) {
   #Runs the main project pipeline.
