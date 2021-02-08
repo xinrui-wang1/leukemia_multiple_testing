@@ -21,6 +21,7 @@ main <- function(target) {
     generate_plots_golub(df1, analysis_cfg$outdir, train=FALSE)
     generate_plots_golub(df2, analysis_cfg$outdir, train=TRUE)
   }
+}
 
 if (!interactive()) {
   target = commandArgs(trailingOnly=TRUE)

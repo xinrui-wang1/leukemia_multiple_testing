@@ -16,7 +16,7 @@ test_stats <- function(data) {
   g2 = 23:36 #AML
   t.stat = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$statistic})
   df = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$parameter})
-  p.value = apply(X=df2, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$p.value})
+  p.value = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$p.value})
   test_list = list(t.stat, df, p.value)
   names(test_list) = c('t.stat','df','p.value')
   return(test_list)
@@ -65,11 +65,11 @@ qq_plot <- function(data, outdir, train, transformed = FALSE) {
 hist_p <- function(data, outdir, train) {
   #create histogram for the p-value
   if (train == TRUE) {
-    jpeg(paste(outdir,'train_tstat_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'train_pval_hist.jpg',sep='/'))
     p.value = train_stats(data)$p.value
   }
   else {
-    jpeg(paste(outdir,'test_tstat_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'test_pval_hist.jpg',sep='/'))
     p.value = test_stats(data)$p.value
   }
   
@@ -90,7 +90,7 @@ hist_tstat <- function(data,outdir,train) {
     jpeg(paste(outdir,'test_tstat_hist.jpg',sep='/'))
     t.stat = test_stats(data)$t.stat
   }
-  x = seq(-5,5,by=0.1)
+  x = seq(-8,8,by=0.1)
   hist(t.stat, breaks=x, freq=F) 
   lines(x, dnorm(x), lwd=2, col='red')
   
