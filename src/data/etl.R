@@ -1,6 +1,5 @@
 #etl.R contains functions used to extract data from different datasets
-
-get_data <- function(data, datadir, outpath=NA) {
+get_data <- function(datadir, outpath=NA) {
   # access the selected data set
   data <- read.table(datadir)
   
@@ -11,3 +10,4 @@ get_data <- function(data, datadir, outpath=NA) {
     write(data, outpath, sep = "\t")
   }
 }
+
