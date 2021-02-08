@@ -65,7 +65,8 @@ hist(t.stat, freq=F)
 lines(x, dnorm(x), lwd=2,col='red')
 #cdf calculates area under density function up to certain point
 
-
+test = 'z.scores'
+paste(test,"butts","huge")
 # Expected number of p-values less than a threshold
 m = length(train.p.value)
 p.expected = p*m
@@ -96,3 +97,15 @@ plot(x, t.expected/t.obtained, col='black', type='l', lwd=2, ylab='FDR')
 #f(z) = p0 * f0(z) + (1-p0)fA(z)
 #what scaling factor makes the brown curve match the histogram
 #
+
+train_stats <- function(data) {
+  #find the t statistics, degrees of freedom, and p values of the training set
+  g1 = 3:29 #ALL patients
+  g2 = 30:40 #AML patients
+  t.stat = apply(X=data, MARGIN=1, FUN=function(X){t.test(X[g1],X[g2])$statistic})
+  df = apply(X=data, MARGIN=1, FUN=function(X){t.test(X[g1],X[g2])$df})
+  p.value = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$p.value})
+  train_list = list(t.stat, df, p.value)
+  names(train_list) = c('t.stat','df','p.value')
+  return(train_list)
+}
