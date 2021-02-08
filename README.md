@@ -14,6 +14,6 @@
 Acknowledgements
 - Molecular Classification of Cancer: Class Discovery and Class Prediction by Gene Expression
 
-Science 286:531-537. (1999). Published: 1999.10.14
+  - Science 286:531-537. (1999). Published: 1999.10.14
 
-T.R. Golub, D.K. Slonim, P. Tamayo, C. Huard, M. Gaasenbeek, J.P. Mesirov, H. Coller, M. Loh, J.R. Downing, M.A. Caligiuri, C.D. Bloomfield, and E.S. Lander
+  - T.R. Golub, D.K. Slonim, P. Tamayo, C. Huard, M. Gaasenbeek, J.P. Mesirov, H. Coller, M. Loh, J.R. Downing, M.A. Caligiuri, C.D. Bloomfield, and E.S. Lander
