@@ -4,6 +4,6 @@
     "build": "run-data.R", 
     "library": ["src"], 
     "targets": ["run-data.R data", "run-data.R dataanalysis"],
-    "dockerhub-id": "xiw483/test:latest",
-    "repository-id": "https://github.com/xiw483/dsc180b-capstone.git"
+    "DockerHub Repository": "xiw483/test:latest",
+    "GitHub Repository": "https://github.com/xiw483/dsc180b-capstone"
 }
