@@ -1,0 +1,6 @@
+{
+  "test":"golub1",
+  "train":"golub2",
+  "datadir1":"data/cleaned/golub1",
+  "datadir2":"data/cleaned/golub2"
+}
