@@ -1,5 +1,4 @@
-setwd('..')
-setwd('..')
+setwd('github/dsc180b-capstone')
 
 library(data.table)
 
@@ -12,7 +11,7 @@ df_actual <- read.table(file=paste(datadir,"actual.csv",sep='/'), sep=',', skip=
 names(df_actual)[names(df_actual) == "V1"] <- "patient"
 names(df_actual)[names(df_actual) == "V2"] <- "cancer"
 table(df_actual$cancer)
-
+head(df_independent)
 #clean independent dataframe
 df_independent <- read.table(file=paste(datadir,"data_set_ALL_AML_independent.csv",sep='/'), sep=',')
 old_col = c(
