@@ -2,10 +2,6 @@ setwd('github/dsc180b-capstone')
 
 library(data.table)
 
-datadir = "data/raw"
-outpath = "data/cleaned"
-outdir = "data/out"
-
 clean_actual <- function(datadir) {
   df_actual <- read.table(file=datadir, sep=',', skip=1)
   names(df_actual)[names(df_actual) == "V1"] <- "patient"
@@ -96,8 +92,8 @@ clean_data <- function () {
   #For dataset 2, the first 27 columns(col3 to 29) are ALL while the last 11 (col30 to 40) are AML
   
   #save the datasets
-  write.table(df_1, paste(outpath,"golub1",sep='/'),row.names = TRUE, col.names = TRUE)
-  write.table(df_2, paste(outpath,"golub2",sep='/'),row.names = TRUE, col.names = TRUE)
+  write.table(df_1, data_cfg$datadir1,row.names = TRUE, col.names = TRUE)
+  write.table(df_2, data_cfg$datadir2,row.names = TRUE, col.names = TRUE)
 }
 
 
