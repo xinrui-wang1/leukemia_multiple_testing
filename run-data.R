@@ -4,6 +4,7 @@ source("src/data/etl.R")
 source("src/analysis/GolubAnalysis.R")
 source("src/cleaning/GolubCleaning.R")
 
+
 main <- function(target) {
   #Runs the main project pipeline.
   #params: target: string must contain 'data','analysis','model'.
