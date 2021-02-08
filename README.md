@@ -12,7 +12,7 @@
   - data: etl.R contains the scirpt to extract the data for run-data.R
   
 Acknowledgements
-Molecular Classification of Cancer: Class Discovery and Class Prediction by Gene Expression
+- Molecular Classification of Cancer: Class Discovery and Class Prediction by Gene Expression
 
 Science 286:531-537. (1999). Published: 1999.10.14
 
