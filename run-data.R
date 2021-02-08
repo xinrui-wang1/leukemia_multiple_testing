@@ -10,8 +10,8 @@ main <- function(target) {
   
   if(grepl('data',target, fixed =TRUE)) {
     data_cfg<- fromJSON(file='config/data-params.json')
-    df1 = get_data(data_cfg$test, data_cfg$datadir1)
-    df2 = get_data(data_cfg$train, data_cfg$datadir2)
+    df1 = clean_data(get_data(data_cfg$test, data_cfg$datadir1))
+    df2 = clean_data(get_data(data_cfg$train, data_cfg$datadir2))
   }
   #TODO
   if(grepl('analysis',target, fixed=TRUE)) {
