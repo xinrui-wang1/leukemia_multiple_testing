@@ -58,11 +58,11 @@ qq_plot <- function(data, outdir, transformed = FALSE) {
 hist_p <- function(data, outdir, train) {
   #create histogram for the p-value
   if (train == TRUE) {
-    jpeg(paste(outdir,'train_tstat_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'train_pvalue_hist.jpg',sep='/'))
     p.value = train_stats(data)$p.value
   }
   else {
-    jpeg(paste(outdir,'test_tstat_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'test_pvalue_hist.jpg',sep='/'))
     p.value = test_stats(data)$p.value
   }
   
