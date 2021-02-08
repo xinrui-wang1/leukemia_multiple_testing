@@ -16,7 +16,7 @@ test_stats <- function(data) {
   g2 = 23:36 #AML
   t.stat = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$statistic})
   df = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$parameter})
-  p.value = apply(X=df2, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$p.value})
+  p.value = apply(X=data, MARGIN=1, FUN=function(X){t.test(as.numeric(X[g1]),as.numeric(X[g2]))$p.value})
   test_list = list(t.stat, df, p.value)
   names(test_list) = c('t.stat','df','p.value')
   return(test_list)
@@ -41,7 +41,7 @@ qq_plot <- function(data, outdir, transformed = FALSE) {
   if (transformed == TRUE) {
     jpeg(paste(outdir,'qq_plot_transformed.jpg',sep='/'))
     x = train_stats(data)
-    new.X = transform_train(x)
+    new.X = transform_data(x, TRUE)
     qqnorm(new.X, main=' QQ plot for transformed z scores')
     abline(0,1,lwd=2,col='red')
   }
@@ -83,7 +83,7 @@ hist_tstat <- function(data,outdir,train) {
     jpeg(paste(outdir,'test_tstat_hist.jpg',sep='/'))
     t.stat = test_stats(data)$t.stat
   }
-  x = seq(-5,5,by=0.1)
+  x = seq(-8,8,by=0.1)
   hist(t.stat, breaks=x, freq=F) 
   lines(x, dnorm(x), lwd=2, col='red')
   
@@ -94,6 +94,6 @@ generate_plots_golub <- function(data, outdir, train) {
   #generate plots and save in output directory
   hist_tstat(data, outdir,train)
   hist_p(data, outdir, train)
-  qq_plot(data, outdir, train)
-  qq_plot(data, outdir, transformed=TRUE)
+#  qq_plot(data, outdir, train)
+#  qq_plot(data, outdir, transformed=TRUE)
 }

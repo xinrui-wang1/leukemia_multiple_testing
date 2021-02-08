@@ -1,12 +1,12 @@
-setwd('github/dsc180b-capstone')
-
 library(data.table)
+library("rjson")
+
 
 clean_actual <- function(datadir) {
   df_actual <- read.table(file=datadir, sep=',', skip=1)
   names(df_actual)[names(df_actual) == "V1"] <- "patient"
   names(df_actual)[names(df_actual) == "V2"] <- "cancer"
-  return(df_acutal)
+  return(df_actual)
 }
 
 clean_independent <- function(datadir) {
@@ -42,18 +42,18 @@ clean_train <- function(datadir) {
   return(df_train)
 }
 
-#function to return type of cancer given patient's number
-find_cancer <- function(patient){
-  return(df_actual$cancer[df_actual$patient==patient])
-}
-
 clean_data <- function () {
   data_cfg<- fromJSON(file='config/data-params.json')
-  df_acutal = clean_actual(data_cfg$raw_actual)
+  df_actual = clean_actual(data_cfg$raw_actual)
   df_independent = clean_independent(data_cfg$raw1)
   df_train = clean_train(data_cfg$raw2)
   df_1 <- data.frame(df_independent$`Gene Description`, df_independent$`Gene Accession Number`)
   df_2 <- data.frame(df_train$`Gene Description`,df_train$`Gene Accession Number`)
+  
+  #function to return type of cancer given patient's number
+  find_cancer <- function(patient){
+    return(df_actual$cancer[df_actual$patient==patient])
+  }
   
   #Append columns to the first dataset and sort by cancer types
   pat_1 <- colnames(df_independent)[3:length(colnames(df_independent))]
