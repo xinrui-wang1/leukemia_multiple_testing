@@ -1,6 +1,6 @@
 # DSC180B-Capstone-Project
 - dataset available for download at https://www.kaggle.com/crawford/gene-expression
-  - Unzip files into 'data/raw' folder
+  - #Make sure to files into 'data/raw' folder#
 - get data: in the command line enter `Rscript run-data.R data`
 - analysis: in the command line enter `Rscript run-data.R analysis`
   - the resulting graphs will be in the data/out folder 
