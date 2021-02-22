@@ -29,10 +29,16 @@ transform_data <- function(data, train) { #takes data as input, outputs the z-sc
   else {
     stats = test_stats(data)
   }
-  t.stat = stats$t.stat
-  df = stats$df
-  areas = 1 - pt(t.stat, df = df) #area to the right of each t statistic (with given degrees of freedom)
-  z.scores = qnorm(areas) #respective z scores for each area (t statistic density)
+  pos.t.stat = t.stat[which(t.stat > 0)]
+  pos.df = df[which(t.stat > 0)]
+  pos.areas = 1 - pt(pos.t.stat, df=pos.df) #area to the left of each t statistic (with given degrees of freedom)
+  pos.z.scores = -1*qnorm(pos.areas) #get respective z scores from each area
+  #do the same for negative t statistics
+  neg.t.stat = t.stat[which(t.stat < 0)] 
+  neg.df = df[which(t.stat < 0)]
+  neg.areas = pt(neg.t.stat, df=neg.df)
+  neg.z.scores = qnorm(neg.areas)
+  z.scores = c(pos.z.scores, neg.z.scores)
   return(z.scores)
 }
 
