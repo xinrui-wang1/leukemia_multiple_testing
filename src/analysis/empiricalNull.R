@@ -1,3 +1,5 @@
+source('golubAnalysis.R')
+
 df1 <- read.table('data/cleaned/golub2')
 g1 = 3:22 #ALL patients
 g2 = 23:36 #AML patients
