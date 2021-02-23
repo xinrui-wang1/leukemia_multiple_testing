@@ -1,9 +1,10 @@
 source("src/analysis/GolubAnalysis.R")
-
+#Load dataset
 df1 <- read.table('data/cleaned/golub1')
 df2 <- read.table('data/cleaned/golub2')
 
 estimate_p0 <- function(z.scores) {
+  #Estimate p0 to fit the empirical null distribution
   z.index = c()
   interval = 0.2
   for (i in 1:length(z.scores)) {
