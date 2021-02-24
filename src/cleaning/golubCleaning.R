@@ -92,6 +92,6 @@ clean_data <- function () {
   #For dataset 2, the first 27 columns(col3 to 29) are ALL while the last 11 (col30 to 40) are AML
   
   #save the datasets
-  write.table(df_1, data_cfg$datadir1,row.names = TRUE, col.names = TRUE)
-  write.table(df_2, data_cfg$datadir2,row.names = TRUE, col.names = TRUE)
+  write.csv(df_1, data_cfg$datadir1,row.names = TRUE, col.names = TRUE)
+  write.csv(df_2, data_cfg$datadir2,row.names = TRUE, col.names = TRUE)
 }
