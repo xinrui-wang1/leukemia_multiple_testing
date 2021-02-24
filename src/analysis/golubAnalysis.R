@@ -105,6 +105,27 @@ hist_tstat <- function(data,outdir,train) {
   dev.off()
 }
 
+estimate_p0 <- function(z.scores) {
+  #Estimate p0 to fit the empirical null distribution
+  z.index = c()
+  interval = 0.2
+  for (i in 1:length(z.scores)) {
+    if (z.scores[i] > -interval & z.scores[i] < interval)
+      z.index <- append(z.index, i)
+  }
+  intervalZ <- z.scores[z.index]
+  
+  z.density <- density(z.scores)
+  f = c()
+  for (z in sort(intervalZ)) {
+    temp  <- approx(z.density$x, z.density$y, xout=z)$y
+    f <- append(f, temp)
+  }
+  
+  p0 = exp(mean(log(f) - log(dnorm(sort(intervalZ)))))
+  return(p0)
+}
+
 hist_zscores <- function(data, outdir, train){
   #create histogram for zscores
   if (train == TRUE){
@@ -117,6 +138,9 @@ hist_zscores <- function(data, outdir, train){
   x = seq(-5, 5, by = 0.1)
   hist(z.scores, 100, prob=T, ylim=c(0, 0.4)) 
   lines(x, dnorm(x), lwd=2, col='red')
+  
+  p0 = estimate_p0(z.scores)
+  lines(x, p0*dnorm(x), lwd = 2, lty=2, col= 'red')
   
   dev.off()
 }
