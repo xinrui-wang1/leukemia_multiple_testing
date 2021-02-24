@@ -24,15 +24,14 @@ estimate_p0 <- function(z.scores) {
   return(p0)
 }
 
-estimate_p0(transform_data(df1, TRUE))
-estimate_p0(transform_data(df2, FALSE))
-
+estimate_p0(transform_data(df1, FALSE))
+estimate_p0(transform_data(df2, TRUE))
 
 
 
 t.stat = test_stats(df1)$t.stat
 p.value = test_stats(df1)$p.value
-z.scores = transform_data(df1,TRUE)
+z.scores = transform_data(df1,FALSE)
 
 p = seq(0,1,by=0.01)
 hist(p.value, freq=F)

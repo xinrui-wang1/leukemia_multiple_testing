@@ -99,7 +99,23 @@ hist_tstat <- function(data,outdir,train) {
     t.stat = test_stats(data)$t.stat
   }
   x = seq(-8,8,by=0.1)
-  hist(t.stat, breaks=x, freq=F) 
+  hist(t.stat, breaks=x, freq=F, ylim=c(0, 0.4)) 
+  lines(x, dnorm(x), lwd=2, col='red')
+  
+  dev.off()
+}
+
+hist_zscores <- function(data, outdir, train){
+  #create histogram for zscores
+  if (train == TRUE){
+    jpeg(paste(outdir, 'train_zscore_hist.jpg', sep='/'))
+  }
+  else {
+    jpeg(paste(outdir, 'test_zscores_hist.jpg', sep='/'))
+  }
+  z.scores = transform_data(data, train)
+  x = seq(-5, 5, by = 0.1)
+  hist(z.scores, 100, prob=T, ylim=c(0, 0.4)) 
   lines(x, dnorm(x), lwd=2, col='red')
   
   dev.off()
@@ -109,6 +125,7 @@ generate_plots_golub <- function(data, outdir, train) {
   #generate plots and save in output directory
   hist_tstat(data, outdir,train)
   hist_p(data, outdir, train)
+  hist_zscores(data, outdir, train)
   qq_plot(data, outdir, train)
   qq_plot(data, outdir, train, transformed=TRUE)
 }
