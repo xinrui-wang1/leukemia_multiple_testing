@@ -1,0 +1,7 @@
+{
+  "this-repository" : "https://github.com/xiw483/dsc180b-capstone.git",
+  "project-repository" : "https://github.com/xiw483/dsc180b-capstone.git",
+  "dockerhub-repository" : "dockerhub-repository": "xiw483/test:latest", 
+  "project-website-url" : "https://xiw483.github.io/dsc180b-website/",
+  "project-website-code" : "https://github.com/xiw483/dsc180b-website.git"
+}
