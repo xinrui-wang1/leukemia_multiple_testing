@@ -126,6 +126,29 @@ estimate_p0 <- function(z.scores) {
   return(p0)
 }
 
+empirical_p0 <- function(z.scores) {
+  z.sd = IQR(z.scores)/1.349
+  z.med = median(z.scores)
+  
+  z.index = c()
+  interval = 0.2
+  for (i in 1:length(z.scores)) {
+    if (z.scores[i] > -interval & z.scores[i] < interval)
+      z.index <- append(z.index, i)
+  }
+  intervalZ <- z.scores[z.index]
+  
+  z.density <- density(z.scores)
+  f = c()
+  for (z in sort(intervalZ)) {
+    temp  <- approx(z.density$x, z.density$y, xout=z)$y
+    f <- append(f, temp)
+  }
+  
+  p0_emp = exp(mean(log(f) - log(dnorm(sort(intervalZ), z.med, z.sd))))
+  return(p0_emp)
+}
+
 hist_zscores <- function(data, outdir, train){
   #create histogram for zscores
   if (train == TRUE){
@@ -134,16 +157,113 @@ hist_zscores <- function(data, outdir, train){
   else {
     jpeg(paste(outdir, 'test_zscores_hist.jpg', sep='/'))
   }
+
+  # Theoretical Null (dotted)
   z.scores = transform_data(data, train)
   x = seq(-5, 5, by = 0.1)
   hist(z.scores, 100, prob=T, ylim=c(0, 0.4)) 
-  lines(x, dnorm(x), lwd=2, col='red')
+  lines(x, dnorm(x), lwd=2, lty=3, col='red')
   
+  # Theoretical null scaled (dashed)
   p0 = estimate_p0(z.scores)
   lines(x, p0*dnorm(x), lwd = 2, lty=2, col= 'red')
   
+  # Empirical Null (solid)
+  p0_emp = empirical_p0(z.scores)
+  z.sd = IQR(z.scores)/1.349
+  z.med = median(z.scores)
+  lines(x, p0_emp*dnorm(x, z.med, z.sd), lwd = 2, col='red')
+  
+  legend(1.4, 0.4, legend = c(
+    "Theoretical Null Distribution", 
+    "Scaled Theoretical Null", 
+    "Empirical Null Distribution"), lty=c(3,2,1), cex=0.8, col='red')
+  
   dev.off()
 }
+
+plot_metrics <- function(data, outdir, train) {
+  #Plot the TPR, FPR, and FDR of both theoretical and empirical null
+  
+  z.scores = transform_data(data, train)
+  z.sd = IQR(z.scores)/1.349
+  z.med = median(z.scores)
+  x = seq(-5,5,by=0.1)
+  m = length(z.scores)
+  # Under theoretical null N(0,1)
+  p_null = 1-pnorm(x)
+  p_hat = rep(0, length(x))
+  
+  for (i in 1:length(x)) {
+    p_hat[i] = sum((z.scores) > x[i])/m
+  }
+  p0 = estimate_p0(z.scores)
+  p0_emp = empirical_p0(z.scores)
+  # Theoretical
+  fpr = p_null
+  tpr = (p_hat-p0*p_null)/(1-p0)
+  fdr = p0*p_null/p_hat
+  # Empirical
+  p_emp_null = 1 - pnorm(x, z.med, z.sd)
+  fpr_emp = p_emp_null
+  tpr_emp = (p_hat-p0_emp*p_emp_null)/(1-p0_emp)
+  fdr_emp = p0_emp*p_emp_null/p_hat
+  
+  # Plot TPR
+  if (train == TRUE){
+    jpeg(paste(outdir, 'tpr_train.jpg', sep='/'))
+  }
+  else {
+    jpeg(paste(outdir, 'tpr_test.jpg', sep='/'))
+  }
+  plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate')
+  lines(x, fpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
+  legend(2, 0.95, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
+  
+  dev.off()
+  
+  # Plot FPR
+  if (train == TRUE){
+    jpeg(paste(outdir, 'fpr_train.jpg', sep='/'))
+  }
+  else {
+    jpeg(paste(outdir, 'fpr_test.jpg', sep='/'))
+  }
+  plot(x, tpr, ylim = c(0,1.5), type = 'l', lwd=2, col='red', main = 'True Positive Rate')
+  lines(x, tpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
+  legend(2, 1.4, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
+  
+  dev.off()
+  
+  # Plot FDR
+  if (train == TRUE){
+    jpeg(paste(outdir, 'fdr_train.jpg', sep='/'))
+  }
+  else {
+    jpeg(paste(outdir, 'fdr_test.jpg', sep='/'))
+  }
+  plot(x, fdr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Discovery Rate')
+  lines(x, fdr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
+  legend(-4.5, 0.2, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
+  
+  # Plot AOC ROC
+  if (train == TRUE){
+    jpeg(paste(outdir, 'roc_train.jpg', sep='/'))
+  }
+  else {
+    jpeg(paste(outdir, 'roc_test.jpg', sep='/'))
+  }
+  plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate')
+  lines(x, fpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
+  legend(2, 0.95, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
+  
+  dev.off()
+  
+  dev.off()
+}
+
+
+
 
 generate_plots_golub <- function(data, outdir, train) {
   #generate plots and save in output directory
@@ -152,4 +272,5 @@ generate_plots_golub <- function(data, outdir, train) {
   hist_zscores(data, outdir, train)
   qq_plot(data, outdir, train)
   qq_plot(data, outdir, train, transformed=TRUE)
+  plot_metrics(data, outdir, train)
 }
