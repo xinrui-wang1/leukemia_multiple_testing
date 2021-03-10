@@ -211,10 +211,10 @@ plot_metrics <- function(data, outdir, train) {
   
   # Plot TPR
   if (train == TRUE){
-    jpeg(paste(outdir, 'tpr_train.jpg', sep='/'))
+    jpeg(paste(outdir, 'fpr_train.jpg', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'tpr_test.jpg', sep='/'))
+    jpeg(paste(outdir, 'fpr_test.jpg', sep='/'))
   }
   plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate')
   lines(x, fpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
@@ -224,10 +224,10 @@ plot_metrics <- function(data, outdir, train) {
   
   # Plot FPR
   if (train == TRUE){
-    jpeg(paste(outdir, 'fpr_train.jpg', sep='/'))
+    jpeg(paste(outdir, 'tpr_train.jpg', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'fpr_test.jpg', sep='/'))
+    jpeg(paste(outdir, 'tpr_test.jpg', sep='/'))
   }
   plot(x, tpr, ylim = c(0,1.5), type = 'l', lwd=2, col='red', main = 'True Positive Rate')
   lines(x, tpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
