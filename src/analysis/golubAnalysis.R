@@ -47,7 +47,7 @@ transform_data <- function(data, train) { #takes data as input, outputs the z-sc
 qq_plot <- function(data, outdir, train, transformed = FALSE) {
   #create qq plots, if transformed = TRUE then create plot for z scores
   if (transformed == TRUE) {
-    jpeg(paste(outdir,'qq_plot_transformed.jpg',sep='/'))
+    jpeg(paste(outdir,'qq_plot_transformed.png',sep='/'))
     z.scores = transform_data(data, train)
     qqnorm(z.scores, main=' QQ plot for transformed z scores')
     abline(0,1,lwd=2,col='red')
@@ -73,11 +73,11 @@ qq_plot <- function(data, outdir, train, transformed = FALSE) {
 hist_p <- function(data, outdir, train) {
   #create histogram for the p-value
   if (train == TRUE) {
-    jpeg(paste(outdir,'train_pval_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'train_pval_hist.png',sep='/'))
     p.value = train_stats(data)$p.value
   }
   else {
-    jpeg(paste(outdir,'test_pval_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'test_pval_hist.png',sep='/'))
     p.value = test_stats(data)$p.value
   }
   
@@ -91,11 +91,11 @@ hist_p <- function(data, outdir, train) {
 hist_tstat <- function(data,outdir,train) {
   #create histogram for tstat
   if (train == TRUE) {
-    jpeg(paste(outdir,'train_tstat_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'train_tstat_hist.png',sep='/'))
     t.stat = train_stats(data)$t.stat
   }
   else {
-    jpeg(paste(outdir,'test_tstat_hist.jpg',sep='/'))
+    jpeg(paste(outdir,'test_tstat_hist.png',sep='/'))
     t.stat = test_stats(data)$t.stat
   }
   x = seq(-8,8,by=0.1)
@@ -152,10 +152,10 @@ empirical_p0 <- function(z.scores) {
 hist_zscores <- function(data, outdir, train){
   #create histogram for zscores
   if (train == TRUE){
-    jpeg(paste(outdir, 'train_zscore_hist.jpg', sep='/'))
+    jpeg(paste(outdir, 'train_zscore_hist.png', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'test_zscores_hist.jpg', sep='/'))
+    jpeg(paste(outdir, 'test_zscores_hist.png', sep='/'))
   }
 
   # Theoretical Null (dotted)
@@ -211,12 +211,12 @@ plot_metrics <- function(data, outdir, train) {
   
   # Plot TPR
   if (train == TRUE){
-    jpeg(paste(outdir, 'fpr_train.jpg', sep='/'))
+    jpeg(paste(outdir, 'fpr_train.png', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'fpr_test.jpg', sep='/'))
+    jpeg(paste(outdir, 'fpr_test.png', sep='/'))
   }
-  plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate')
+  plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate', xlab="z-scores threshold")
   lines(x, fpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
   legend(2, 0.95, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
   
@@ -224,12 +224,12 @@ plot_metrics <- function(data, outdir, train) {
   
   # Plot FPR
   if (train == TRUE){
-    jpeg(paste(outdir, 'tpr_train.jpg', sep='/'))
+    jpeg(paste(outdir, 'tpr_train.png', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'tpr_test.jpg', sep='/'))
+    jpeg(paste(outdir, 'tpr_test.png', sep='/'))
   }
-  plot(x, tpr, ylim = c(0,1.5), type = 'l', lwd=2, col='red', main = 'True Positive Rate')
+  plot(x, tpr, ylim = c(0,1.5), type = 'l', lwd=2, col='red', main = 'True Positive Rate', xlab="z-scores threshold")
   lines(x, tpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
   legend(2, 1.4, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
   
@@ -237,23 +237,23 @@ plot_metrics <- function(data, outdir, train) {
   
   # Plot FDR
   if (train == TRUE){
-    jpeg(paste(outdir, 'fdr_train.jpg', sep='/'))
+    jpeg(paste(outdir, 'fdr_train.png', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'fdr_test.jpg', sep='/'))
+    jpeg(paste(outdir, 'fdr_test.png', sep='/'))
   }
-  plot(x, fdr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Discovery Rate')
+  plot(x, fdr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Discovery Rate', xlab="z-scores threshold")
   lines(x, fdr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
   legend(-4.5, 0.2, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
   
   # Plot AOC ROC
   if (train == TRUE){
-    jpeg(paste(outdir, 'roc_train.jpg', sep='/'))
+    jpeg(paste(outdir, 'roc_train.png', sep='/'))
   }
   else {
-    jpeg(paste(outdir, 'roc_test.jpg', sep='/'))
+    jpeg(paste(outdir, 'roc_test.png', sep='/'))
   }
-  plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate')
+  plot(x, fpr, ylim = c(0,1), type = 'l', lwd=2, col='red', main = 'False Positive Rate', xlab="z-scores threshold")
   lines(x, fpr_emp, ylim=c(0,1), type='l', lwd=2, col='blue')
   legend(2, 0.95, legend = c("Theoretical", "Empirical"), col = c('red', 'blue'), lty=1:1, cex=0.8)
   
